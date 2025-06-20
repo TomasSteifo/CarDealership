@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using CarDealership.Domain.Entities;
 using System.Threading.Tasks;
 
-namespace Application.Interfaces.UserInterface
+namespace CarDealership.Application.Interfaces.Userinterface
 {
-    internal class IUserRepository
+    public interface IUserRepository
     {
+        Task<bool> ExistsByEmailAsync(string email);
+        Task AddAsync(User user);
+        Task<User> GetByEmailAsync(string email);
     }
 }
