@@ -12,7 +12,9 @@ using Microsoft.AspNetCore.Identity;
 using FluentValidation.AspNetCore;
 using MediatR;
 using System.Text;
+using Application;
 using FluentValidation;
+using Infrastructure;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,7 +51,7 @@ builder.Services.AddSwaggerGen(c =>
 
 // 3) EF Core — SQL Express via appsettings.json
 builder.Services.AddDbContext<CarDealershipDbContext>(opts =>
-    opts.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+    opts.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // 4) Password hashing
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
@@ -88,6 +90,10 @@ builder.Services.AddAuthentication(options =>
                                       Encoding.UTF8.GetBytes(jwtSection["Key"]))
     };
 });
+
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddApplication();
+
 
 var app = builder.Build();
 

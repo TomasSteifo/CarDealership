@@ -1,7 +1,6 @@
 using Application.CarIssues.Commands;
 using Application.CarIssues.Dtos;
 using Application.Interfaces.CarIssueInterface;
-using Application.Interfaces.IAppDbContext;
 using AutoMapper;
 using Domain.Models;
 using MediatR;
