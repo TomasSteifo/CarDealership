@@ -9,6 +9,9 @@ jobs:
   build-test:
     runs-on: ubuntu-latest
 
+    # this line sets the GitHub environment dynamically
+    environment: ${{ github.ref_name == 'main' && 'Production' || 'Development' }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,8 +41,9 @@ jobs:
           REF: ${{ github.ref_name }}
           ACTOR: ${{ github.actor }}
           URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          ENVIRONMENT: ${{ job.environment }}
         run: |
-          msg="❌ Build failed in **$REPO**\nWorkflow: **$WORKFLOW**\nBranch: **$REF**\nCommit: \`${SHA}\`\nBy: **$ACTOR**\nRun: $URL"
+          msg="❌ Build failed in **$REPO**\nEnvironment: **$ENVIRONMENT**\nBranch: **$REF**\nCommit: \`${SHA}\`\nBy: **$ACTOR**\nRun: $URL"
           curl -X POST -H "Content-Type: application/json" \
             -d "{\"content\": \"$msg\"}" \
-            ${{ secrets.DISCORD_WEBHOOK_URL }}
+            "$DISCORD_WEBHOOK_URL"
