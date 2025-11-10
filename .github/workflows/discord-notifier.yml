@@ -42,4 +42,4 @@ jobs:
           msg="❌ Build failed in **$REPO**\nWorkflow: **$WORKFLOW**\nBranch: **$REF**\nCommit: \`${SHA}\`\nBy: **$ACTOR**\nRun: $URL"
           curl -X POST -H "Content-Type: application/json" \
             -d "{\"content\": \"$msg\"}" \
-            "$DISCORD_WEBHOOK_URL"
+            ${{ secrets.DISCORD_WEBHOOK_URL }}
